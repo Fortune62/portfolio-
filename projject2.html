@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievo - Executive Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'bounce-subtle': 'bounceSubtle 3s infinite',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'card-hover': 'cardHover 0.3s ease-out',
+                        'gradient-shift': 'gradientShift 8s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(5deg)' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.9)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' }
+                        },
+                        bounceSubtle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.3)' },
+                            '100%': { boxShadow: '0 0 40px rgba(139, 92, 246, 0.6)' }
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
+                        },
+                        cardHover: {
+                            '0%': { transform: 'translateY(0) scale(1)' },
+                            '100%': { transform: 'translateY(-5px) scale(1.02)' }
+                        },
+                        gradientShift: {
+                            '0%, 100%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' }
+                        }
+                    },
+                    fontFamily: {
+                        'display': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .dark .gradient-text {
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sortable-ghost {
+            opacity: 0.4;
+            transform: rotate(5deg);
+        }
+        .sortable-chosen {
+            transform: scale(1.05);
+            z-index: 999;
+        }
+        .widget-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .widget-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .dark .widget-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.7;
+            animation: float 8s ease-in-out infinite;
+        }
+        .floating-orb:nth-child(1) { animation-delay: 0s; }
+        .floating-orb:nth-child(2) { animation-delay: 2s; }
+        .floating-orb:nth-child(3) { animation-delay: 4s; }
+        .news-ticker {
+            animation: scroll-left 30s linear infinite;
+        }
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body class="font-display bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800 min-h-screen transition-all duration-700 overflow-x-hidden">
+    <!-- Floating Background Orbs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="floating-orb w-96 h-96 bg-blue-400/20 top-1/4 left-1/4"></div>
+        <div class="floating-orb w-64 h-64 bg-purple-400/20 bottom-1/3 right-1/4"></div>
+        <div class="floating-orb w-80 h-80 bg-pink-400/20 top-1/2 right-1/3"></div>
+    </div>
+
+    <div class="relative z-10 min-h-screen">
+        <!-- Premium Header -->
+        <header class="glass-effect sticky top-0 z-50 border-b border-white/20 dark:border-gray-700/50">
+            <div class="container mx-auto px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <div class="w-12 h-12 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-xl animate-glow">
+                                <i class="fas fa-home text-white text-xl"></i>
+                            </div>
+                            <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-bounce-subtle border-2 border-white dark:border-gray-800"></div>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold gradient-text">Achievo</h1>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 font-medium">Executive Edition</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <!-- Live Status -->
+                        <div class="hidden md:flex items-center space-x-2 px-4 py-2 glass-effect rounded-full">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Live</span>
+                        </div>
+                        
+                        <!-- Theme Toggle -->
+                        <button id="themeToggle" class="p-3 glass-effect rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300 group">
+                            <i id="themeIcon" class="fas fa-moon text-gray-700 dark:text-gray-300 group-hover:scale-110 transition-transform"></i>
+                        </button>
+                        
+                        <!-- Settings -->
+                        <button id="settingsBtn" class="p-3 glass-effect rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300 group">
+                            <i class="fas fa-cog text-gray-700 dark:text-gray-300 group-hover:rotate-90 transition-transform duration-300"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Welcome Section -->
+        <section class="container mx-auto px-6 py-8">
+            <div class="text-center mb-8 animate-fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 dark:text-white mb-2">
+                    Good <span id="timeOfDay">Morning</span>, <span class="gradient-text">Executive</span>
+                </h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400" id="currentDate"></p>
+                <div class="mt-4 flex justify-center">
+                    <div class="px-6 py-2 glass-effect rounded-full">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            Productivity Score: <span class="text-green-500 font-bold">94%</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Widget Grid -->
+        <main class="container mx-auto px-6 pb-12">
+            <div id="widgetGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-max">
+                
+                <!-- Weather Widget -->
+                <div class="widget-card glass-effect rounded-2xl p-6 shadow-2xl border border-white/20 dark:border-gray-700/50 animate-slide-up" data-widget="weather">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-cloud-sun mr-2 text-blue-500"></i>
+                            Weather
+                        </h3>
+                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl mb-2">☀️</div>
+                        <div class="text-3xl font-bold text-gray-800 dark:text-white mb-1">24°C</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-3">Sunny & Clear</div>
+                        <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                            <span>H: 28°</span>
+                            <span>L: 18°</span>
+                            <span>💧 20%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Notes Widget -->
+                <div class="widget-card glass-effect rounded-2xl p-6 shadow-2xl border border-white/20 dark:border-gray-700/50 animate-slide-up" data-widget="notes" style="animation-delay: 0.1s">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-sticky-note mr-2 text-yellow-500"></i>
+                            Quick Notes
+                        </h3>
+                        <button id="addNoteBtn" class="text-blue-500 hover:text-blue-600 transition-colors">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div id="notesList" class="space-y-2 max-h-48 overflow-y-auto">
+                        <div class="note-item p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg border-l-4 border-yellow-500">
+                            <p class="text-sm text-gray-800 dark:text-gray-200">Review quarterly reports</p>
+                            <span class="text-xs text-gray-500">2 hours ago</span>
+                        </div>
+                        <div class="note-item p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg border-l-4 border-blue-500">
+                            <p class="text-sm text-gray-800 dark:text-gray-200">Call with design team at 3 PM</p>
+                            <span class="text-xs text-gray-500">5 hours ago</span>
+                        </div>
+                    </div>
+                    <textarea id="newNoteInput" class="w-full mt-3 p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-600 text-sm resize-none" placeholder="Add a quick note..." rows="2"></textarea>
+                </div>
+
+                <!-- Calendar Widget -->
+                <div class="widget-card glass-effect rounded-2xl p-6 shadow-2xl border border-white/20 dark:border-gray-700/50 animate-slide-up" data-widget="calendar" style="animation-delay: 0.2s">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-calendar-alt mr-2 text-green-500"></i>
+                            Calendar
+                        </h3>
+                        <div class="flex space-x-1">
+                            <button id="prevMonth" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button id="nextMonth" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-center mb-3">
+                        <h4 id="currentMonth" class="font-semibold text-gray-800 dark:text-white"></h4>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 text-xs">
+                        <div class="text-center font-medium text-gray-500 p-1">S</div>
+                        <div class="text-center font-medium text-gray-500 p-1">M</div>
+                        <div class="text-center font-medium text-gray-500 p-1">T</div>
+                        <div class="text-center font-medium text-gray-500 p-1">W</div>
+                        <div class="text-center font-medium text-gray-500 p-1">T</div>
+                        <div class="text-center font-medium text-gray-500 p-1">F</div>
+                        <div class="text-center font-medium text-gray-500 p-1">S</div>
+                        <div id="calendarDays" class="col-span-7 grid grid-cols-7 gap-1"></div>
+                    </div>
+                </div>
+
+                <!-- To-Do List Widget -->
+                <div class="widget-card glass-effect rounded-2xl p-6 shadow-2xl border border-white/20 dark:border-gray-700/50 animate-slide-up" data-widget="todo" style="animation-delay: 0.3s">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-tasks mr-2 text-purple-500"></i>
+                            To-Do List
+                        </h3>
+                        <span class="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-2 py-1 rounded-full font-medium">
+                            <span id="todoProgress">3/5</span>
+                        </span>
+                    </div>
+                    <div id="todoList" class="space-y-2 max-h-48 overflow-y-auto mb-3">
+                        <div class="todo-item flex items-center space-x-3 p-2 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors">
+                            <input type="checkbox" class="w-4 h-4 text-purple-600 rounded focus:ring-purple-500" checked>
+                            <span class="text-sm text-gray-600 dark:text-gray-400 line-through">Review project proposals</span>
+                        </div>
+                        <div class="todo-item flex items-center space-x-3 p-2 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors">
+                            <input type="checkbox" class="w-4 h-4 text-purple-600 rounded focus:ring-purple-500" checked>
+                            <span class="text-sm text-gray-600 dark:text-gray-400 line-through">Update team dashboard</span>
+                        </div>
+                        <div class="todo-item flex items-center space-x-3 p-2 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors">
+                            <input type="checkbox" class="w-4 h-4 text-purple-600 rounded focus:ring-purple-500" checked>
+                            <span class="text-sm text-gray-600 dark:text-gray-400 line-through">Prepare presentation</span>
+                        </div>
+                        <div class="todo-item flex items-center space-x-3 p-2 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors">
+                            <input type="checkbox" class="w-4 h-4 text-purple-600 rounded focus:ring-purple-500">
+                            <span class="text-sm text-gray-800 dark:text-gray-200">Schedule client meeting</span>
+                        </div>
+                        <div class="todo-item flex items-center space-x-3 p-2 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors">
+                            <input type="checkbox" class="w-4 h-4 text-purple-600 rounded focus:ring-purple-500">
+                            <span class="text-sm text-gray-800 dark:text-gray-200">Code review session</span>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <input id="newTodoInput" type="text" class="flex-1 p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-600 text-sm" placeholder="Add new task...">
+                        <button id="addTodoBtn" class="px-3 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Analytics Widget -->
+                <div class="widget-card glass-effect rounded-2xl p-6 shadow-2xl border border-white/20 dark:border-gray-700/50 animate-slide-up col-span-1 md:col-span-2" data-widget="analytics" style="animation-delay: 0.4s">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-chart-bar mr-2 text-indigo-500"></i>
+                            Productivity Analytics
+                        </h3>
+                        <div class="flex space-x-2">
+                            <button class="text-xs px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full font-medium">Week</button>
+                            <button class="text-xs px-3 py-1 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 rounded-full">Month</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-500">94%</div>
+                            <div class="text-xs text-gray-500">Efficiency</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-500">47h</div>
+                            <div class="text-xs text-gray-500">Focus Time</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-500">23</div>
+                            <div class="text-xs text-gray-500">Tasks Done</div>
+                        </div>
+                    </div>
+                    <div class="h-32">
+                        <canvas id="productivityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- News Feed Widget -->
+                <div class="widget-card glass-effect rounded-2xl p-6 shadow-2xl border border-white/20 dark:border-gray-700/50 animate-slide-up" data-widget="news" style="animation-delay: 0.5s">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-newspaper mr-2 text-red-500"></i>
+                            Tech News
+                        </h3>
+                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-3 max-h-48 overflow-y-auto">
+                        <div class="news-item p-3 bg-white/30 dark:bg-gray-800/30 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer">
+                            <h4 class="text-sm font-medium text-gray-800 dark:text-white mb-1">AI Revolution in Enterprise</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">Companies adopting AI see 40% productivity boost...</p>
+                            <span class="text-xs text-blue-500">TechCrunch • 2h ago</span>
+                        </div>
+                        <div class="news-item p-3 bg-white/30 dark:bg-gray-800/30 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer">
+                            <h4 class="text-sm font-medium text-gray-800 dark:text-white mb-1">Remote Work Trends 2024</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">Hybrid models becoming the new standard...</p>
+                            <span class="text-xs text-green-500">Forbes • 4h ago</span>
+                        </div>
+                        <div class="news-item p-3 bg-white/30 dark:bg-gray-800/30 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer">
+                            <h4 class="text-sm font-medium text-gray-800 dark:text-white mb-1">Startup Funding Surge</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">Q4 sees record investment in tech startups...</p>
+                            <span class="text-xs text-purple-500">Bloomberg • 6h ago</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Motivational Quote Widget -->
+                <div class="widget-card glass-effect rounded-2xl p-6 shadow-2xl border border-white/20 dark:border-gray-700/50 animate-slide-up" data-widget="quote" style="animation-delay: 0.6s">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-quote-left mr-2 text-pink-500"></i>
+                            Daily Inspiration
+                        </h3>
+                        <button id="newQuoteBtn" class="text-pink-500 hover:text-pink-600 transition-colors">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <blockquote id="dailyQuote" class="text-sm italic text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
+                            "Success is not final, failure is not fatal: it is the courage to continue that counts."
+                        </blockquote>
+                        <cite id="quoteAuthor" class="text-xs text-gray-500 font-medium">— Winston Churchill</cite>
+                    </div>
+                    <div class="mt-4 flex justify-center">
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
+                            <div class="w-2 h-2 bg-pink-300 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                            <div class="w-2 h-2 bg-pink-200 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Widget -->
+                <div class="widget-card glass-effect rounded-2xl p-6 shadow-2xl border border-white/20 dark:border-gray-700/50 animate-slide-up" data-widget="actions" style="animation-delay: 0.7s">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-bolt mr-2 text-yellow-500"></i>
+                            Quick Actions
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="p-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                            <i class="fas fa-video mb-1 block"></i>
+                            <span class="text-xs">Start Meeting</span>
+                        </button>
+                        <button class="p-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                            <i class="fas fa-envelope mb-1 block"></i>
+                            <span class="text-xs">Send Email</span>
+                        </button>
+                        <button class="p-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl hover:from-purple-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                            <i class="fas fa-file-alt mb-1 block"></i>
+                            <span class="text-xs">New Doc</span>
+                        </button>
+                        <button class="p-3 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-xl hover:from-pink-600 hover:to-pink-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                            <i class="fas fa-calendar-plus mb-1 block"></i>
+                            <span class="text-xs">Schedule</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- News Ticker -->
+        <div class="fixed bottom-0 left-0 right-0 bg-black/90 text-white py-2 overflow-hidden z-40">
+            <div class="news-ticker whitespace-nowrap">
+                <span class="inline-block px-8">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    Markets up 2.3% • 
+                    <i class="fas fa-rocket ml-4 mr-2"></i>
+                    SpaceX launches successful mission • 
+                    <i class="fas fa-microchip ml-4 mr-2"></i>
+                    New AI breakthrough announced • 
+                    <i class="fas fa-globe ml-4 mr-2"></i>
+                    Global tech summit next week
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center">
+        <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl border border-white/20">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Dashboard Settings</h3>
+                <button id="closeSettings" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Widget Layout</label>
+                    <select class="w-full p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <option>Auto (Responsive)</option>
+                        <option>Compact</option>
+                        <option>Spacious</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notifications</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2" checked>
+                            <span class="text-sm">Task reminders</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2" checked>
+                            <span class="text-sm">Weather alerts</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2">
+                            <span class="text-sm">News updates</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="flex space-x-3 pt-4">
+                    <button class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                        Save Changes
+                    </button>
+                    <button id="resetSettings" class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors">
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Management with Smooth Transitions
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        let isDark = localStorage.getItem('theme') === 'dark' || 
+                    (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+        function updateTheme() {
+            document.documentElement.classList.toggle('dark', isDark);
+            themeIcon.className = isDark ? 'fas fa-sun text-yellow-400 group-hover:scale-110 transition-transform' : 
+                                          'fas fa-moon text-gray-700 dark:text-gray-300 group-hover:scale-110 transition-transform';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        updateTheme();
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            updateTheme();
+            
+            // Smooth transition effect
+            document.body.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 500);
+        });
+
+        // Dynamic Time-based Greeting
+        function updateGreeting() {
+            const now = new Date();
+            const hour = now.getHours();
+            const timeOfDayEl = document.getElementById('timeOfDay');
+            const currentDateEl = document.getElementById('currentDate');
+            
+            let greeting;
+            if (hour < 12) greeting = 'Morning';
+            else if (hour < 17) greeting = 'Afternoon';
+            else greeting = 'Evening';
+            
+            timeOfDayEl.textContent = greeting;
+            currentDateEl.textContent = now.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Drag and Drop Functionality
+        let sortable;
+        function initializeDragDrop() {
+            const grid = document.getElementById('widgetGrid');
+            sortable = new Sortable(grid, {
+                animation: 300,
+                ghostClass: 'sortable-ghost',
+                chosenClass: 'sortable-chosen',
+                dragClass: 'sortable-drag',
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+                onEnd: function(evt) {
+                    saveWidgetOrder();
+                    // Add success feedback
+                    const widget = evt.item;
+                    widget.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        widget.style.transform = '';
+                    }, 200);
+                }
+            });
+        }
+
+        // Persistent Storage for Widget Order
+        function saveWidgetOrder() {
+            const widgets = Array.from(document.querySelectorAll('[data-widget]'));
+            const order = widgets.map(widget => widget.dataset.widget);
+            localStorage.setItem('widgetOrder', JSON.stringify(order));
+        }
+
+        function loadWidgetOrder() {
+            const savedOrder = localStorage.getItem('widgetOrder');
+            if (savedOrder) {
+                const order = JSON.parse(savedOrder);
+                const grid = document.getElementById('widgetGrid');
+                const widgets = Array.from(document.querySelectorAll('[data-widget]'));
+                
+                order.forEach(widgetType => {
+                    const widget = widgets.find(w => w.dataset.widget === widgetType);
+                    if (widget) {
+                        grid.appendChild(widget);
+                    }
+                });
+            }
+        }
+
+        // Notes Functionality
+        function initializeNotes() {
+            const addNoteBtn = document.getElementById('addNoteBtn');
+            const newNoteInput = document.getElementById('newNoteInput');
+            const notesList = document.getElementById('notesList');
+
+            function addNote() {
+                const text = newNoteInput.value.trim();
+                if (text) {
+                    const noteDiv = document.createElement('div');
+                    noteDiv.className = 'note-item p-3 bg-green-100 dark:bg-green-900/30 rounded-lg border-l-4 border-green-500 animate-slide-up';
+                    noteDiv.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-800 dark:text-gray-200">${text}</p>
+                                <span class="text-xs text-gray-500">Just now</span>
+                            </div>
+                            <button class="delete-note text-red-400 hover:text-red-600 ml-2">
+                                <i class="fas fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    notesList.insertBefore(noteDiv, notesList.firstChild);
+                    newNoteInput.value = '';
+                    
+                    // Add delete functionality
+                    noteDiv.querySelector('.delete-note').addEventListener('click', () => {
+                        noteDiv.style.animation = 'fadeOut 0.3s ease-out';
+                        setTimeout(() => noteDiv.remove(), 300);
+                    });
+                    
+                    saveNotes();
+                }
+            }
+
+            addNoteBtn.addEventListener('click', addNote);
+            newNoteInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    addNote();
+                }
+            });
+        }
+
+        function saveNotes() {
+            const notes = Array.from(document.querySelectorAll('.note-item')).map(note => ({
+                text: note.querySelector('p').textContent,
+                timestamp: note.querySelector('span').textContent
+            }));
+            localStorage.setItem('dashboardNotes', JSON.stringify(notes));
+        }
+
+        // Calendar Functionality
+        function initializeCalendar() {
+            const currentMonthEl = document.getElementById('currentMonth');
+            const calendarDaysEl = document.getElementById('calendarDays');
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+            
+            let currentDate = new Date();
+            
+            function renderCalendar() {
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth();
+                
+                currentMonthEl.textContent = new Date(year, month).toLocaleDateString('en-US', {
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+                
+                calendarDaysEl.innerHTML = '';
+                
+                // Empty cells for days before month starts
+                for (let i = 0; i < firstDay; i++) {
+                    const emptyDay = document.createElement('div');
+                    emptyDay.className = 'p-1';
+                    calendarDaysEl.appendChild(emptyDay);
+                }
+                
+                // Days of the month
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayEl = document.createElement('div');
+                    dayEl.className = 'p-1 text-center cursor-pointer rounded hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors';
+                    dayEl.textContent = day;
+                    
+                    // Highlight today
+                    if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
+                        dayEl.className += ' bg-blue-500 text-white font-bold';
+                    }
+                    
+                    // Add some sample events
+                    if ([5, 12, 18, 25].includes(day)) {
+                        dayEl.className += ' bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium';
+                    }
+                    
+                    calendarDaysEl.appendChild(dayEl);
+                }
+            }
+            
+            prevMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+            
+            nextMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+            
+            renderCalendar();
+        }
+
+        // Todo List Functionality
+        function initializeTodoList() {
+            const addTodoBtn = document.getElementById('addTodoBtn');
+            const newTodoInput = document.getElementById('newTodoInput');
+            const todoList = document.getElementById('todoList');
+            const todoProgress = document.getElementById('todoProgress');
+            
+            function updateProgress() {
+                const checkboxes = todoList.querySelectorAll('input[type="checkbox"]');
+                const completed = todoList.querySelectorAll('input[type="checkbox"]:checked').length;
+                todoProgress.textContent = `${completed}/${checkboxes.length}`;
+            }
+            
+            function addTodo() {
+                const text = newTodoInput.value.trim();
+                if (text) {
+                    const todoDiv = document.createElement('div');
+                    todoDiv.className = 'todo-item flex items-center space-x-3 p-2 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors animate-slide-up';
+                    todoDiv.innerHTML = `
+                        <input type="checkbox" class="w-4 h-4 text-purple-600 rounded focus:ring-purple-500">
+                        <span class="text-sm text-gray-800 dark:text-gray-200 flex-1">${text}</span>
+                        <button class="delete-todo text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-trash text-xs"></i>
+                        </button>
+                    `;
+                    
+                    todoList.appendChild(todoDiv);
+                    newTodoInput.value = '';
+                    
+                    // Add event listeners
+                    const checkbox = todoDiv.querySelector('input[type="checkbox"]');
+                    const span = todoDiv.querySelector('span');
+                    const deleteBtn = todoDiv.querySelector('.delete-todo');
+                    
+                    checkbox.addEventListener('change', () => {
+                        span.classList.toggle('line-through', checkbox.checked);
+                        span.classList.toggle('text-gray-600', checkbox.checked);
+                        span.classList.toggle('dark:text-gray-400', checkbox.checked);
+                        updateProgress();
+                        saveTodos();
+                    });
+                    
+                    deleteBtn.addEventListener('click', () => {
+                        todoDiv.style.animation = 'fadeOut 0.3s ease-out';
+                        setTimeout(() => {
+                            todoDiv.remove();
+                            updateProgress();
+                            saveTodos();
+                        }, 300);
+                    });
+                    
+                    updateProgress();
+                    saveTodos();
+                }
+            }
+            
+            addTodoBtn.addEventListener('click', addTodo);
+            newTodoInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTodo();
+                }
+            });
+            
+            // Initialize existing checkboxes
+            todoList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    const span = checkbox.nextElementSibling;
+                    span.classList.toggle('line-through', checkbox.checked);
+                    span.classList.toggle('text-gray-600', checkbox.checked);
+                    span.classList.toggle('dark:text-gray-400', checkbox.checked);
+                    updateProgress();
+                });
+            });
+            
+            updateProgress();
+        }
+
+        function saveTodos() {
+            const todos = Array.from(document.querySelectorAll('.todo-item')).map(item => ({
+                text: item.querySelector('span').textContent,
+                completed: item.querySelector('input[type="checkbox"]').checked
+            }));
+            localStorage.setItem('dashboardTodos', JSON.stringify(todos));
+        }
+
+        // Motivational Quotes
+        const quotes = [
+            { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+            { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+            { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "It is during our darkest moments that we must focus to see the light.", author: "Aristotle" },
+            { text: "Success is walking from failure to failure with no loss of enthusiasm.", author: "Winston Churchill" },
+            { text: "The only impossible journey is the one you never begin.", author: "Tony Robbins" }
+        ];
+
+        function initializeQuotes() {
+            const newQuoteBtn = document.getElementById('newQuoteBtn');
+            const dailyQuote = document.getElementById('dailyQuote');
+            const quoteAuthor = document.getElementById('quoteAuthor');
+            
+            function showNewQuote() {
+                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                
+                // Fade out
+                dailyQuote.style.opacity = '0';
+                quoteAuthor.style.opacity = '0';
+                
+                setTimeout(() => {
+                    dailyQuote.textContent = `"${randomQuote.text}"`;
+                    quoteAuthor.textContent = `— ${randomQuote.author}`;
+                    
+                    // Fade in
+                    dailyQuote.style.opacity = '1';
+                    quoteAuthor.style.opacity = '1';
+                }, 300);
+            }
+            
+            newQuoteBtn.addEventListener('click', showNewQuote);
+        }
+
+        // Analytics Chart
+        function initializeChart() {
+            const ctx = document.getElementById('productivityChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Productivity',
+                            data: [85, 92, 78, 96, 89, 94, 88],
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#8b5cf6',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false,
+                                min: 70,
+                                max: 100
+                            }
+                        },
+                        elements: {
+                            point: {
+                                hoverRadius: 8
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Settings Modal
+        function initializeSettings() {
+            const settingsBtn = document.getElementById('settingsBtn');
+            const settingsModal = document.getElementById('settingsModal');
+            const closeSettings = document.getElementById('closeSettings');
+            const resetSettings = document.getElementById('resetSettings');
+            
+            settingsBtn.addEventListener('click', () => {
+                settingsModal.classList.remove('hidden');
+                settingsModal.classList.add('flex');
+            });
+            
+            closeSettings.addEventListener('click', () => {
+                settingsModal.classList.add('hidden');
+                settingsModal.classList.remove('flex');
+            });
+            
+            resetSettings.addEventListener('click', () => {
+                if (confirm('Are you sure you want to reset all settings?')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            });
+            
+            // Close modal when clicking outside
+            settingsModal.addEventListener('click', (e) => {
+                if (e.target === settingsModal) {
+                    settingsModal.classList.add('hidden');
+                    settingsModal.classList.remove('flex');
+                }
+            });
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+            updateGreeting();
+            initializeDragDrop();
+            loadWidgetOrder();
+            initializeNotes();
+            initializeCalendar();
+            initializeTodoList();
+            initializeQuotes();
+            initializeChart();
+            initializeSettings();
+            
+            // Update greeting every minute
+            setInterval(updateGreeting, 60000);
+            
+            // Smooth page load animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.8s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+            
+            // Add stagger animation to widgets
+            const widgets = document.querySelectorAll('.widget-card');
+            widgets.forEach((widget, index) => {
+                widget.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // Add CSS for fadeOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                0% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0.9); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9799affae4789ea2',t:'MTc1Njk0OTA2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok - Make Your Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'heart-burst': 'heartBurst 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                        'heart-float': 'heartFloat 2.5s ease-out forwards',
+                        'like-pulse': 'likePulse 0.6s ease-out',
+                        'share-bounce': 'shareBounce 0.5s ease-out',
+                        'comment-slide': 'commentSlide 0.4s ease-out',
+                        'follow-glow': 'followGlow 0.8s ease-out',
+                        'neon-pulse': 'neonPulse 2s ease-in-out infinite',
+                        'slide-up-smooth': 'slideUpSmooth 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                        'fade-in-up': 'fadeInUp 0.6s ease-out',
+                        'scale-in': 'scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                        'wiggle-soft': 'wiggleSoft 0.6s ease-in-out',
+                        'glow-ring': 'glowRing 1.5s ease-in-out infinite',
+                        'float-gentle': 'floatGentle 3s ease-in-out infinite',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'bounce-in': 'bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                        'slide-in-right': 'slideInRight 0.5s ease-out',
+                        'caption-reveal': 'captionReveal 0.8s ease-out',
+                        'progress-fill': 'progressFill 0.3s ease-out',
+                        'ripple': 'ripple 0.6s ease-out',
+                        'sound-wave': 'soundWave 1s ease-in-out infinite',
+                        'video-transition': 'videoTransition 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                        'double-tap': 'doubleTap 0.3s ease-out',
+                        'cascade-hearts': 'cascadeHearts 3s ease-out forwards',
+                    },
+                    keyframes: {
+                        heartBurst: {
+                            '0%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.3)', opacity: '0.8' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        heartFloat: {
+                            '0%': { transform: 'translateY(0) scale(0) rotate(0deg)', opacity: '0' },
+                            '15%': { transform: 'translateY(-20px) scale(1) rotate(10deg)', opacity: '1' },
+                            '100%': { transform: 'translateY(-150px) scale(0.3) rotate(30deg)', opacity: '0' }
+                        },
+                        cascadeHearts: {
+                            '0%': { transform: 'translateY(0) scale(0)', opacity: '0' },
+                            '10%': { transform: 'translateY(-10px) scale(1)', opacity: '1' },
+                            '90%': { transform: 'translateY(-120px) scale(0.8)', opacity: '0.8' },
+                            '100%': { transform: 'translateY(-150px) scale(0)', opacity: '0' }
+                        },
+                        doubleTap: {
+                            '0%': { transform: 'scale(1)', opacity: '0' },
+                            '50%': { transform: 'scale(1.5)', opacity: '1' },
+                            '100%': { transform: 'scale(2)', opacity: '0' }
+                        },
+                        likePulse: {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.2)' },
+                            '100%': { transform: 'scale(1)' }
+                        },
+                        shareBounce: {
+                            '0%': { transform: 'scale(1) rotate(0deg)' },
+                            '50%': { transform: 'scale(1.2) rotate(10deg)' },
+                            '100%': { transform: 'scale(1) rotate(0deg)' }
+                        },
+                        commentSlide: {
+                            '0%': { transform: 'translateX(10px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        followGlow: {
+                            '0%': { boxShadow: '0 0 0 0 rgba(255, 20, 147, 0.7)' },
+                            '70%': { boxShadow: '0 0 0 10px rgba(255, 20, 147, 0)' },
+                            '100%': { boxShadow: '0 0 0 0 rgba(255, 20, 147, 0)' }
+                        },
+                        neonPulse: {
+                            '0%, 100%': { 
+                                boxShadow: '0 0 20px rgba(255, 20, 147, 0.5), 0 0 40px rgba(255, 20, 147, 0.3)' 
+                            },
+                            '50%': { 
+                                boxShadow: '0 0 30px rgba(255, 20, 147, 0.8), 0 0 60px rgba(255, 20, 147, 0.5)' 
+                            }
+                        },
+                        slideUpSmooth: {
+                            '0%': { transform: 'translateY(100vh)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        fadeInUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        wiggleSoft: {
+                            '0%, 100%': { transform: 'rotate(0deg)' },
+                            '25%': { transform: 'rotate(-2deg)' },
+                            '75%': { transform: 'rotate(2deg)' }
+                        },
+                        glowRing: {
+                            '0%, 100%': { 
+                                boxShadow: '0 0 0 0 rgba(59, 130, 246, 0.7)' 
+                            },
+                            '50%': { 
+                                boxShadow: '0 0 0 8px rgba(59, 130, 246, 0)' 
+                            }
+                        },
+                        floatGentle: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
+                        },
+                        bounceIn: {
+                            '0%': { transform: 'scale(0.3)', opacity: '0' },
+                            '50%': { transform: 'scale(1.05)', opacity: '0.8' },
+                            '70%': { transform: 'scale(0.9)', opacity: '1' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        slideInRight: {
+                            '0%': { transform: 'translateX(100%)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        captionReveal: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        progressFill: {
+                            '0%': { width: '0%' },
+                            '100%': { width: '100%' }
+                        },
+                        ripple: {
+                            '0%': { transform: 'scale(0)', opacity: '1' },
+                            '100%': { transform: 'scale(4)', opacity: '0' }
+                        },
+                        soundWave: {
+                            '0%, 100%': { transform: 'scaleY(1)' },
+                            '50%': { transform: 'scaleY(1.5)' }
+                        },
+                        videoTransition: {
+                            '0%': { transform: 'scale(1.1)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    },
+                    colors: {
+                        'neon': {
+                            'pink': '#ff1493',
+                            'blue': '#00bfff',
+                            'purple': '#8a2be2',
+                            'green': '#00ff7f',
+                            'orange': '#ff6347'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .video-container {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .video-item {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+        
+        .video-background {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+        }
+        
+        .action-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        
+        .action-button:active::before {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff1493;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff1493, #00bfff);
+            border-radius: 2px;
+            transform-origin: left;
+        }
+        
+        .sound-visualizer {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        
+        .sound-bar {
+            width: 3px;
+            height: 12px;
+            background: #fff;
+            border-radius: 2px;
+            animation: soundWave 1s ease-in-out infinite;
+        }
+        
+        .sound-bar:nth-child(2) { animation-delay: 0.1s; }
+        .sound-bar:nth-child(3) { animation-delay: 0.2s; }
+        .sound-bar:nth-child(4) { animation-delay: 0.3s; }
+        
+        .caption-text {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            line-height: 1.4;
+        }
+        
+        .user-avatar {
+            position: relative;
+        }
+        
+        .user-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(45deg, #ff1493, #00bfff, #8a2be2);
+            border-radius: 50%;
+            z-index: -1;
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+        
+        .follow-button {
+            background: linear-gradient(45deg, #ff1493, #ff6347);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .follow-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .follow-button:hover::before {
+            left: 100%;
+        }
+        
+        .video-overlay {
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                transparent 60%,
+                rgba(0,0,0,0.3) 80%,
+                rgba(0,0,0,0.8) 100%
+            );
+        }
+        
+        .smooth-scroll {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .interaction-feedback {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 768px) {
+            .action-button {
+                transform: scale(0.9);
+            }
+        }
+        
+        .like-counter {
+            transition: all 0.3s ease;
+        }
+        
+        .like-counter.liked {
+            color: #ff1493;
+            transform: scale(1.1);
+        }
+        
+        .double-tap-heart {
+            position: absolute;
+            font-size: 4rem;
+            color: #ff1493;
+            pointer-events: none;
+            z-index: 1000;
+            animation: double-tap 0.8s ease-out forwards;
+        }
+        
+        .video-content {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .play-pause-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        
+        .video-item:hover .play-pause-btn {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-hidden">
+    
+    <!-- Main Video Container -->
+    <div id="videoContainer" class="video-container h-screen overflow-y-scroll snap-y snap-mandatory">
+        
+        <!-- Video 1: Dance -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="1">
+            <video class="video-background" loop playsinline>
+                <source src="videos/video1.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 15s;"></div>
+            
+            <div class="absolute top-0 left-0 right-0 z-20 p-6 flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="text-white text-lg font-semibold">Following</div>
+                    <div class="text-gray-300">|</div>
+                    <div class="text-white text-lg font-semibold">For You</div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-white hover:scale-110 transition-transform">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        👩‍🎤
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in" style="animation-delay: 0.3s;">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in" style="animation-delay: 0.4s;">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">847K</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in" style="animation-delay: 0.5s;">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">12.5K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in" style="animation-delay: 0.6s;">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">3.2K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in" style="animation-delay: 0.7s;">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-lg">
+                            👩‍🎤
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@dancequeenx</div>
+                            <div class="text-sm text-gray-300">2 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        This dance took me 50 tries to get right! 💃✨ Who else is trying this challenge? 
+                        <span class="text-neon-pink">#danceChallenge #viral #fyp #trending</span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 text-sm text-gray-300">
+                        <span>🎵 Trending Sound - Dance Mix</span>
+                        <span>•</span>
+                        <span>15s</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 2: Cooking -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="2">
+            <video class="video-background" loop playsinline>
+                <source src="videos/video2.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 12s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        👨‍🍳
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">1.2M</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">45.2K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">8.7K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-lg">
+                            👨‍🍳
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@quickchef</div>
+                            <div class="text-sm text-gray-300">1 hour ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        This pasta hack will change your life! 🤯 No more waiting for water to boil! 
+                        <span class="text-neon-orange">#cooking #foodhack #pasta #lifehack</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 3: Comedy -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="3">
+            <video class="video-background" loop playsinline>
+                <source src="videos/video3.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 18s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        🤡
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">2.1M</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">87.3K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">15.6K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center text-lg">
+                            🤡
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@comedyking</div>
+                            <div class="text-sm text-gray-300">3 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        POV: You hear a noise when you're home alone 😭 Who else does this? 
+                        <span class="text-yellow-400">#comedy #relatable #homealone #funny</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 4: Digital Art -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="4">
+            <video class="video-background" loop playsinline>
+                <source src="videos/video4benrda.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 25s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        🎨
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">456K</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">23.1K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">5.8K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-lg">
+                            🎨
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@digitalartist</div>
+                            <div class="text-sm text-gray-300">4 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        From sketch to masterpiece in 25 seconds! ✨ What should I draw next? 
+                        <span class="text-purple-400">#digitalart #procreate #art #timelapse</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 5: Fitness -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="5">
+            <video class="video-background" loop playsinline>
+                <source src="videos/video5brain.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 20s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        💪
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">678K</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">34.7K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">12.3K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-lg">
+                            💪
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@fitnessfreak</div>
+                            <div class="text-sm text-gray-300">6 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        Start your day right! No equipment needed 🔥 Who's doing this with me tomorrow? 
+                        <span class="text-green-400">#fitness #workout #morning #motivation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 6: Pets -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="6">
+            <video class="video-background" loop playsinline>
+                <source src="videos/video6phone.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 14s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-pink-500 to-yellow-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        🐕
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">1.8M</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">92.5K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">28.1K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-yellow-500 flex items-center justify-center text-lg">
+                            🐕
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@petlover</div>
+                            <div class="text-sm text-gray-300">8 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        Max finally learned how to high-five! 🐾 Took us 3 weeks but so worth it! 
+                        <span class="text-yellow-400">#dogsoftiktok #pets #training #cute</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 7: Music -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="7">
+            <video class="video-background" loop playsinline>
+                <source src="videos/video7foo.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 22s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        🎵
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">523K</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">18.9K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">7.2K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-lg">
+                            🎵
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@musicmaker</div>
+                            <div class="text-sm text-gray-300">12 hours ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        Working on my first album! 🎶 This is just a preview... full song coming soon! 
+                        <span class="text-purple-400">#music #original #singer #songwriter</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 8: Fashion -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="8">
+            <video class="video-background" loop playsinline>
+                <source src="videos/video8.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 16s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-pink-500 to-red-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        👗
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">734K</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">41.6K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">19.8K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-red-500 flex items-center justify-center text-lg">
+                            👗
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@fashionista</div>
+                            <div class="text-sm text-gray-300">1 day ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        Same dress, 3 different vibes! ✨ Which look is your favorite? 1, 2, or 3? 
+                        <span class="text-pink-400">#fashion #outfit #style #transformation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 9: Travel -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="9">
+            <video class="video-background" loop playsinline>
+                <source src="videos/videoe9.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 19s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        ✈️
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">912K</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">56.7K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">24.3K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-lg">
+                            ✈️
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@wanderlust</div>
+                            <div class="text-sm text-gray-300">2 days ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        Found this secret beach in Bali! 🏝️ No crowds, just pure paradise... 
+                        <span class="text-cyan-400">#travel #bali #beach #paradise #hidden</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 10: Tech -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="10">
+            <video class="video-background" loop playsinline>
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 17s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-gray-500 to-blue-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        📱
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">1.5M</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">78.4K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">32.1K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-gray-500 to-blue-500 flex items-center justify-center text-lg">
+                            📱
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@techguru</div>
+                            <div class="text-sm text-gray-300">3 days ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        5 iPhone tricks you probably don't know! 🤯 #3 will blow your mind... 
+                        <span class="text-blue-400">#tech #iphone #tips #tricks #apple</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 11: Beauty -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="11">
+            <video class="video-background" loop playsinline>
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 21s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        💄
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">1.3M</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">67.8K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">29.5K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-lg">
+                            💄
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@beautyguru</div>
+                            <div class="text-sm text-gray-300">4 days ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        Quick morning routine for that natural glow! ✨ Perfect for busy mornings... 
+                        <span class="text-pink-400">#beauty #makeup #glowup #morning #routine</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 12: Lifestyle -->
+        <div class="video-item relative w-full h-screen snap-start" data-video="12">
+            <video class="video-background" loop playsinline>
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-content absolute inset-0 z-10" ondblclick="createDoubleTapHeart(event, this)">
+                <button class="play-pause-btn" onclick="toggleVideo(this)">
+                    <i class="fas fa-pause"></i>
+                </button>
+            </div>
+            
+            <div class="video-overlay absolute inset-0 z-10"></div>
+            <div class="progress-bar animate-progress-fill z-20" style="animation-duration: 23s;"></div>
+            
+            <div class="absolute right-4 bottom-32 z-20 flex flex-col items-center space-y-6">
+                <div class="user-avatar relative">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-r from-yellow-500 to-pink-500 flex items-center justify-center text-2xl animate-bounce-in">
+                        🌟
+                    </div>
+                    <button class="follow-button absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold animate-scale-in">
+                        +
+                    </button>
+                </div>
+                
+                <button class="action-button like-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleLike(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <span class="like-counter text-sm font-semibold">892K</span>
+                </button>
+                
+                <button class="action-button comment-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleComment(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="far fa-comment"></i>
+                    </div>
+                    <span class="comment-counter text-sm font-semibold">43.2K</span>
+                </button>
+                
+                <button class="action-button share-btn flex flex-col items-center space-y-2 p-3 rounded-full hover:scale-110 transition-all" onclick="handleShare(this)">
+                    <div class="text-3xl animate-bounce-in">
+                        <i class="fas fa-share"></i>
+                    </div>
+                    <span class="share-counter text-sm font-semibold">16.7K</span>
+                </button>
+                
+                <div class="sound-visualizer animate-bounce-in">
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                    <div class="sound-bar"></div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 right-0 z-20 p-6">
+                <div class="animate-caption-reveal">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-yellow-500 to-pink-500 flex items-center justify-center text-lg">
+                            🌟
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg">@lifestyleblogger</div>
+                            <div class="text-sm text-gray-300">5 days ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="caption-text text-lg font-medium mb-4">
+                        Sunday self-care routine that changed my life! 🌸 What's your favorite way to recharge? 
+                        <span class="text-yellow-400">#lifestyle #selfcare #sunday #routine #wellness</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 z-30 glass-morphism border-t border-white/20">
+        <div class="flex justify-around items-center py-3 px-6">
+            <button class="flex flex-col items-center space-y-1 text-white hover:scale-110 transition-transform">
+                <i class="fas fa-home text-xl"></i>
+                <span class="text-xs font-medium">Home</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white hover:scale-110 transition-all">
+                <i class="fas fa-compass text-xl"></i>
+                <span class="text-xs font-medium">Discover</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white hover:scale-110 transition-all relative">
+                <div class="w-12 h-8 bg-gradient-to-r from-neon-pink to-neon-blue rounded-lg flex items-center justify-center neon-glow">
+                    <i class="fas fa-plus text-xl text-white"></i>
+                </div>
+            </button>
+            <button class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white hover:scale-110 transition-all">
+                <i class="fas fa-inbox text-xl"></i>
+                <span class="text-xs font-medium">Inbox</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1 text-gray-400 hover:text-white hover:scale-110 transition-all">
+                <i class="fas fa-user text-xl"></i>
+                <span class="text-xs font-medium">Profile</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentVideoIndex = 0;
+        let isScrolling = false;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        let lastTap = 0;
+        let videos = [];
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeVideos();
+            initializeScrolling();
+            initializeInteractions();
+            startProgressBars();
+        });
+        
+        // Initialize all videos
+        function initializeVideos() {
+            videos = document.querySelectorAll('.video-background');
+            
+            videos.forEach((video, index) => {
+                video.addEventListener('loadeddata', function() {
+                    if (index === 0) {
+                        // Auto-play first video
+                        video.play().catch(e => console.log('Autoplay prevented'));
+                    }
+                });
+                
+                video.addEventListener('ended', function() {
+                    video.currentTime = 0;
+                    video.play();
+                });
+                
+                // Handle video errors gracefully
+                video.addEventListener('error', function() {
+                    console.log('Video failed to load:', video.src);
+                });
+            });
+        }
+        
+        // Toggle video play/pause
+        function toggleVideo(button) {
+            const videoItem = button.closest('.video-item');
+            const video = videoItem.querySelector('.video-background');
+            const icon = button.querySelector('i');
+            
+            if (video.paused) {
+                video.play();
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+            } else {
+                video.pause();
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+            }
+        }
+        
+        // Smooth scrolling with snap
+        function initializeScrolling() {
+            const container = document.getElementById('videoContainer');
+            let scrollTimeout;
+            
+            container.addEventListener('scroll', function() {
+                if (scrollTimeout) {
+                    clearTimeout(scrollTimeout);
+                }
+                
+                scrollTimeout = setTimeout(() => {
+                    const scrollTop = container.scrollTop;
+                    const videoHeight = window.innerHeight;
+                    const newIndex = Math.round(scrollTop / videoHeight);
+                    
+                    if (newIndex !== currentVideoIndex) {
+                        // Pause previous video
+                        if (videos[currentVideoIndex]) {
+                            videos[currentVideoIndex].pause();
+                        }
+                        
+                        currentVideoIndex = newIndex;
+                        
+                        // Play current video
+                        if (videos[currentVideoIndex]) {
+                            videos[currentVideoIndex].play().catch(e => console.log('Play prevented'));
+                        }
+                        
+                        updateVideoState();
+                    }
+                }, 100);
+            });
+            
+            // Touch gestures for mobile
+            container.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            container.addEventListener('touchend', function(e) {
+                touchEndY = e.changedTouches[0].clientY;
+                handleSwipe();
+            }, { passive: true });
+        }
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartY - touchEndY;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe up - next video
+                    scrollToVideo(currentVideoIndex + 1);
+                } else {
+                    // Swipe down - previous video
+                    scrollToVideo(currentVideoIndex - 1);
+                }
+            }
+        }
+        
+        function scrollToVideo(index) {
+            const container = document.getElementById('videoContainer');
+            const videoItems = container.querySelectorAll('.video-item');
+            
+            if (index >= 0 && index < videoItems.length) {
+                const targetY = index * window.innerHeight;
+                container.scrollTo({
+                    top: targetY,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        function updateVideoState() {
+            // Reset all progress bars
+            document.querySelectorAll('.progress-bar').forEach(bar => {
+                bar.style.animation = 'none';
+            });
+            
+            // Start current video progress bar
+            setTimeout(() => {
+                const currentVideo = document.querySelectorAll('.video-item')[currentVideoIndex];
+                if (currentVideo) {
+                    const progressBar = currentVideo.querySelector('.progress-bar');
+                    if (progressBar) {
+                        const duration = progressBar.style.animationDuration || '15s';
+                        progressBar.style.animation = `progressFill ${duration} linear forwards`;
+                    }
+                }
+            }, 100);
+        }
+        
+        function startProgressBars() {
+            // Start first video progress bar
+            const firstProgressBar = document.querySelector('.progress-bar');
+            if (firstProgressBar) {
+                const duration = firstProgressBar.style.animationDuration || '15s';
+                firstProgressBar.style.animation = `progressFill ${duration} linear forwards`;
+            }
+        }
+        
+        // Double tap to like
+        function createDoubleTapHeart(event, element) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            
+            if (tapLength < 500 && tapLength > 0) {
+                // Double tap detected
+                const rect = element.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                // Create large heart
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.className = 'double-tap-heart';
+                heart.style.left = (x - 30) + 'px';
+                heart.style.top = (y - 30) + 'px';
+                
+                element.appendChild(heart);
+                
+                // Auto-like the video
+                const likeBtn = element.closest('.video-item').querySelector('.like-btn');
+                if (likeBtn) {
+                    handleLike(likeBtn);
+                }
+                
+                // Create cascade of small hearts
+                createCascadeHearts(x, y, element);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 800);
+                
+                // Haptic feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate([50, 30, 50]);
+                }
+            }
+            
+            lastTap = currentTime;
+        }
+        
+        function createCascadeHearts(centerX, centerY, container) {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.className = 'floating-heart';
+                    
+                    const angle = (i * 45) * Math.PI / 180;
+                    const distance = 30 + Math.random() * 40;
+                    const x = centerX + Math.cos(angle) * distance;
+                    const y = centerY + Math.sin(angle) * distance;
+                    
+                    heart.style.left = x + 'px';
+                    heart.style.top = y + 'px';
+                    heart.style.animation = 'cascade-hearts 3s ease-out forwards';
+                    heart.style.animationDelay = (i * 0.1) + 's';
+                    
+                    container.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 3000);
+                }, i * 50);
+            }
+        }
+        
+        // Interaction handlers
+        function initializeInteractions() {
+            // Add ripple effect to all buttons
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', createRipple);
+            });
+        }
+        
+        function createRipple(e) {
+            const button = e.currentTarget;
+            const ripple = document.createElement('div');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple-effect');
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+        
+        function handleLike(button) {
+            const heart = button.querySelector('i');
+            const counter = button.querySelector('.like-counter');
+            const isLiked = heart.classList.contains('fas');
+            
+            if (!isLiked) {
+                // Like animation
+                heart.classList.remove('far');
+                heart.classList.add('fas');
+                heart.style.color = '#ff1493';
+                button.style.animation = 'heart-burst 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                
+                // Update counter
+                const currentCount = parseFloat(counter.textContent.replace(/[KM]/g, ''));
+                const suffix = counter.textContent.includes('M') ? 'M' : 'K';
+                const increment = suffix === 'M' ? 0.1 : 1;
+                counter.textContent = formatCount(currentCount + increment) + suffix;
+                counter.classList.add('liked');
+                
+                // Create floating hearts
+                createFloatingHearts(button);
+                
+                // Haptic feedback simulation
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            } else {
+                // Unlike
+                heart.classList.remove('fas');
+                heart.classList.add('far');
+                heart.style.color = '';
+                counter.classList.remove('liked');
+                
+                const currentCount = parseFloat(counter.textContent.replace(/[KM]/g, ''));
+                const suffix = counter.textContent.includes('M') ? 'M' : 'K';
+                const decrement = suffix === 'M' ? 0.1 : 1;
+                counter.textContent = formatCount(currentCount - decrement) + suffix;
+            }
+            
+            setTimeout(() => {
+                button.style.animation = '';
+            }, 800);
+        }
+        
+        function createFloatingHearts(button) {
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.className = 'floating-heart';
+                    heart.style.left = (button.offsetLeft + Math.random() * 40 - 20) + 'px';
+                    heart.style.top = (button.offsetTop + Math.random() * 40 - 20) + 'px';
+                    heart.style.animation = 'heart-float 2.5s ease-out forwards';
+                    
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 2500);
+                }, i * 100);
+            }
+        }
+        
+        function handleComment(button) {
+            button.style.animation = 'comment-slide 0.4s ease-out';
+            
+            // Simulate comment modal (would open comment section in real app)
+            const feedback = document.createElement('div');
+            feedback.className = 'interaction-feedback';
+            feedback.innerHTML = '💬';
+            feedback.style.left = button.offsetLeft + 'px';
+            feedback.style.top = (button.offsetTop - 30) + 'px';
+            feedback.style.animation = 'fadeInUp 0.6s ease-out';
+            
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.remove();
+                button.style.animation = '';
+            }, 600);
+        }
+        
+        function handleShare(button) {
+            button.style.animation = 'share-bounce 0.5s ease-out';
+            
+            // Simulate share action
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Check out this amazing video!',
+                    text: 'You have to see this on TikTok!',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback - show share options
+                const feedback = document.createElement('div');
+                feedback.className = 'interaction-feedback';
+                feedback.innerHTML = '📤';
+                feedback.style.left = button.offsetLeft + 'px';
+                feedback.style.top = (button.offsetTop - 30) + 'px';
+                feedback.style.animation = 'fadeInUp 0.6s ease-out';
+                
+                document.body.appendChild(feedback);
+                
+                setTimeout(() => {
+                    feedback.remove();
+                }, 600);
+            }
+            
+            setTimeout(() => {
+                button.style.animation = '';
+            }, 500);
+        }
+        
+        function formatCount(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1);
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1);
+            }
+            return Math.round(num).toString();
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    scrollToVideo(currentVideoIndex - 1);
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    scrollToVideo(currentVideoIndex + 1);
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    const currentVideo = videos[currentVideoIndex];
+                    if (currentVideo) {
+                        if (currentVideo.paused) {
+                            currentVideo.play();
+                        } else {
+                            currentVideo.pause();
+                        }
+                    }
+                    break;
+                case 'l':
+                    // Like shortcut
+                    const likeBtn = document.querySelectorAll('.like-btn')[currentVideoIndex];
+                    if (likeBtn) handleLike(likeBtn);
+                    break;
+            }
+        });
+        
+        // Prevent context menu on long press
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        // Smooth page load
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // Add CSS for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple-effect {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                animation: ripple 0.6s ease-out;
+                pointer-events: none;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'979a733a407b6056',t:'MTc1Njk1NzA2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
